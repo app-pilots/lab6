@@ -1,2 +1,5 @@
-# lab6
-Aplicación móvil usando sensores IoT con conexión a la red de Sigfox mediante callbacks
+# Lab3
+## Grupo2
+APLICACIÓN MÓVIL CON INTEGRACIÓN DE BASE DE DATOS EXTERNA EN LA NUBE DE GOOGLE
+
+
