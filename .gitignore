@@ -14,7 +14,6 @@
 .cxx
 local.properties
 # Built application files
-*.apk
 *.aar
 *.ap_
 *.aab
@@ -52,6 +51,7 @@ proguard/
 captures/
 
 # IntelliJ
+.idea
 *.iml
 .idea/workspace.xml
 .idea/tasks.xml

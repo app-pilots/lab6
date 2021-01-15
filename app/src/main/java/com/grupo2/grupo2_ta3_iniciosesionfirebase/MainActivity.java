@@ -2,11 +2,13 @@ package com.grupo2.grupo2_ta3_iniciosesionfirebase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,12 +31,16 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     Button btn_login;
 
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        context = getApplicationContext();
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -43,12 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String msg = intent.getStringExtra("msg");
-        if(msg != null){
-            if(msg.equals("cerrarSesion")){
+        if (msg != null) {
+            if (msg.equals("cerrarSesion")) {
                 cerrarSesion();
             }
         }
-
 
 
     }
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private void cerrarSesion() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
                 task -> updateUI(null));
-        }
+    }
 
 
     @Override
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
+
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),
                 null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
@@ -100,14 +106,23 @@ public class MainActivity extends AppCompatActivity {
             String name = user.getDisplayName();
             String email = user.getEmail();
             String photo = String.valueOf(user.getPhotoUrl());
-            System.out.println("nombre");
-            System.out.println(name);
+
+            Toast.makeText(context, "Bienvenido " + name, Toast.LENGTH_SHORT).show();
 
             HashMap<String, String> info_user = new HashMap<String, String>();
             info_user.put("user_name", user.getDisplayName());
             info_user.put("user_email", user.getEmail());
             info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
             info_user.put("user_id", user.getUid());
+
+            if(user.getPhoneNumber()!=null){
+                info_user.put("user_phone",user.getPhoneNumber());
+            }
+            else{
+                info_user.put("user_phone","No tiene numero celular registrado");
+            }
+
+
 
             finish();
             Intent intent = new Intent(this, PerfilUsuario.class);
@@ -118,11 +133,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("sin registrarse");
         }
     }
-
-
-
-
-
 
 
 }
