@@ -36,13 +36,13 @@ public class registros extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registros);
-        context=getApplicationContext();
+        context = getApplicationContext();
         db_reference = FirebaseDatabase.getInstance().getReference().child("Registros");
 
         leerRegistros();
     }
 
-    public void leerRegistros(){
+    public void leerRegistros() {
 
         db_reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -51,30 +51,27 @@ public class registros extends AppCompatActivity {
                     mostrarRegistrosPorPantalla(snapshot);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError error) {
-                Log.e("Error",error.toException().toString());
+                Log.e("Error", error.toException().toString());
             }
         });
     }
 
-    public void mostrarRegistrosPorPantalla(DataSnapshot snapshot){
+    public void mostrarRegistrosPorPantalla(DataSnapshot snapshot) {
 
         LinearLayout contTemp = (LinearLayout) findViewById(R.id.ContenedorTemp);
         LinearLayout contAxis = (LinearLayout) findViewById(R.id.ContenedorAxis);
         String tempVal = String.valueOf(snapshot.child("temp").getValue());
         String axisVal = String.valueOf(snapshot.child("axi").getValue());
         TextView temp = new TextView(getApplicationContext());
-        temp.setText(tempVal+" °C");
+        temp.setText(tempVal + " °C");
         contTemp.addView(temp);
         TextView axis = new TextView(getApplicationContext());
         axis.setText(axisVal);
         contAxis.addView(axis);
     }
-
-
-
-
 
 
 }

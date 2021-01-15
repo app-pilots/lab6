@@ -115,13 +115,11 @@ public class MainActivity extends AppCompatActivity {
             info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
             info_user.put("user_id", user.getUid());
 
-            if(user.getPhoneNumber()!=null){
-                info_user.put("user_phone",user.getPhoneNumber());
+            if (user.getPhoneNumber() != null) {
+                info_user.put("user_phone", user.getPhoneNumber());
+            } else {
+                info_user.put("user_phone", "No tiene numero celular registrado");
             }
-            else{
-                info_user.put("user_phone","No tiene numero celular registrado");
-            }
-
 
 
             finish();
